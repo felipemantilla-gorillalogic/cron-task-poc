@@ -1,5 +1,6 @@
 const { SyncProcess } = require("../error-handler/sync-process-class");
-const { SyncProcessMiddleware } = require("../error-handler/sync-middleware");
+const { syncProcessMiddleware } = require("../error-handler/sync-middleware");
+const { syncProcessAfterware } = require("../error-handler/sync-afterware");
 
 const router = require("express").Router();
 
@@ -8,7 +9,6 @@ const syncVisitorStats = (req) => {
 };
 
 const requestHandler = async (req, res) => {
-
   const syncProcess = new SyncProcess(req);
   try {
     await syncVisitorStats();
@@ -19,6 +19,11 @@ const requestHandler = async (req, res) => {
   }
 };
 
-router.get("/sync-visitor-stats", SyncProcessMiddleware, requestHandler);
+router.get(
+  "/sync-visitor-stats",
+  syncProcessMiddleware,
+  requestHandler,
+  syncProcessAfterware
+);
 
 module.exports = router;

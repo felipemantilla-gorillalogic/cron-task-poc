@@ -1,8 +1,13 @@
-const SyncProcessMiddleware = async (req, res, next) => {
+const syncProcessMiddleware = async (req, res, next) => {
   req.syncContext = {
     errors: [],
     warnings: [],
   };
+  
+  res.on("close", (error) => {
+    console.log("closing request");
+    console.log(res.statusCode);
+  });
 
   req.log.warn = (message) => {
     req.syncContext.warnings.push(message);
@@ -25,9 +30,9 @@ const SyncProcessMiddleware = async (req, res, next) => {
 
     console.error(message);
   };
-  await next();
+  next();
 };
 
 module.exports = {
-  SyncProcessMiddleware,
+  syncProcessMiddleware,
 };
