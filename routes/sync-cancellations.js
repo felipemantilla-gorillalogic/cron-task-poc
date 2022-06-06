@@ -1,4 +1,3 @@
-const { SyncProcess } = require("../error-handler/sync-process-class");
 const { syncProcessMiddleware } = require("../error-handler/sync-middleware");
 
 const router = require("express").Router();
@@ -14,8 +13,6 @@ const requestHandler = async (req, res) => {
   //     res.status(403).send();
   //     return;
   //   }
-
-  const syncProcess = new SyncProcess(req);
   try {
     //   await models.Event.update(
     //     {
@@ -34,11 +31,10 @@ const requestHandler = async (req, res) => {
     //     }
     //   );
     await modelsEventUpdate();
+    res.status(200).send("ok");
   } catch (error) {
     req.log.error(error);
-  } finally {
-    syncProcess.report(req);
-    res.status(200).send("ok");
+    res.status(500).send(error.message);
   }
 };
 

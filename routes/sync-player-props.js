@@ -1,4 +1,3 @@
-const { SyncProcess } = require("../error-handler/sync-process-class");
 const { syncProcessMiddleware } = require("../error-handler/sync-middleware");
 
 const router = require("express").Router();
@@ -11,8 +10,7 @@ const syncPlayerProps = (req, league) => {
   }
 };
 
-const requestHandler =  async (req, res) => {
-  const syncProcess = new SyncProcess(req);
+const requestHandler = async (req, res) => {
   try {
     const results = {
       NBA: await syncPlayerProps(req, "NBA"),
@@ -22,11 +20,9 @@ const requestHandler =  async (req, res) => {
     res.status(200).send(results);
   } catch (error) {
     req.log.error(error);
-    res.status(200).send("ok");
-  } finally {
-    syncProcess.report(req);
+    res.status(500).send("ok");
   }
-}
+};
 
 router.get("/sync-player-props", syncProcessMiddleware, requestHandler);
 

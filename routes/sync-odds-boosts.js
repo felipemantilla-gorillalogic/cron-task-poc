@@ -1,4 +1,3 @@
-const { SyncProcess } = require("../error-handler/sync-process-class");
 const { syncProcessMiddleware } = require("../error-handler/sync-middleware");
 
 const router = require("express").Router();
@@ -18,7 +17,6 @@ const updateBoosts = async () => {
 };
 
 const requestHandler = async (req, res) => {
-  const syncProcess = new SyncProcess(req);
   try {
     await getMgmOddsBoosts(req).catch((error) => req.log.error(error));
     await getDraftKingsOddsBoosts().catch((error) => req.log.error(error));
@@ -30,9 +28,7 @@ const requestHandler = async (req, res) => {
     res.status(200).send("ok");
   } catch (error) {
     req.log.error(error);
-    res.status(200).send("ok");
-  } finally {
-    syncProcess.report(req);
+    res.status(500).send(error.message);
   }
 };
 

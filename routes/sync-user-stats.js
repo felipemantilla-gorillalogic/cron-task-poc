@@ -1,4 +1,3 @@
-const { SyncProcess } = require("../error-handler/sync-process-class");
 const { syncProcessMiddleware } = require("../error-handler/sync-middleware");
 
 const router = require("express").Router();
@@ -22,7 +21,6 @@ const requestHandler = async (req, res) => {
 
   try {
     await statsSync(req, res);
-    throw new Error("Error syncing stats 2");
     res.status(200).send("ok");
   } catch (e) {
     req.log.error(e);
