@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const { router } = require("./routes/index");
+const localCron = require("./local-cron/index");
 
 app.use((req, res, next) => {
   req.log = {
@@ -18,6 +19,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(router);
+
+localCron.init();
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

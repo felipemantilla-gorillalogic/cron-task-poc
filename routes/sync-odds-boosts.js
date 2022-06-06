@@ -18,10 +18,10 @@ const updateBoosts = async () => {
 
 const requestHandler = async (req, res) => {
   try {
-    await getMgmOddsBoosts(req).catch((error) => req.log.error(error));
-    await getDraftKingsOddsBoosts().catch((error) => req.log.error(error));
-    await getFanduelOddsBoosts().catch((error) => req.log.error(error));
-    await updateBoosts().catch((error) => req.log.error(error));
+    await getMgmOddsBoosts(req)
+    await getDraftKingsOddsBoosts()
+    await getFanduelOddsBoosts()
+    await updateBoosts()
 
     for (i = 0; i < 1000; i++) {} // simulate a long process that may should fail
 

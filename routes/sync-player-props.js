@@ -20,7 +20,7 @@ const requestHandler = async (req, res) => {
     res.status(200).send(results);
   } catch (error) {
     req.log.error(error);
-    res.status(500).send("ok");
+    res.status(500).send(error.message);
   }
 };
 
