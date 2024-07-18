@@ -2,11 +2,12 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, edited]
-  pull_request_review_comment:
-    types: [created, edited]
-  issue_comment:
-    types: [created, edited]
+    types: [review_requested, opened, edited]
+    # types: [opened, edited]
+  # pull_request_review_comment:
+  #   types: [created, edited]
+  # issue_comment:
+  #   types: [created, edited]
     
 jobs:
   process-pull-request:
@@ -26,3 +27,4 @@ jobs:
         with:
           github-token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          trigger-label: 'claude-review'
